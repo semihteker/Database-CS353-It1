@@ -9,7 +9,7 @@ app.secret_key = 'why would I tell you my secret key?'
 # MySQL configurations
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
-app.config['MYSQL_DATABASE_DB'] = 'BucketList'
+app.config['MYSQL_DATABASE_DB'] = 'RestExpress'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 #app.config["MYSQL_DATABASE_CHARSET"] ='utf8mb4'
 mysql.init_app(app)
@@ -48,9 +48,9 @@ def validateLogin():
     try:
         _username = request.form['inputEmail']
         _password = request.form['inputPassword']
-        
 
-        
+
+
         # connect to mysql
 
         con = mysql.connect()
@@ -58,7 +58,7 @@ def validateLogin():
         cursor.callproc('sp_validateLogin',(_username,))
         data = cursor.fetchall()
 
-        
+
 
 
         if len(data) > 0:
@@ -69,7 +69,7 @@ def validateLogin():
                 return render_template('error.html',error = 'Wrong Email address or Password.')
         else:
             return render_template('error.html',error = 'Wrong Email address or Password.')
-            
+
 
     except Exception as e:
         return render_template('error.html',error = str(e))
@@ -87,9 +87,9 @@ def signUp():
 
         # validate the received values
         if _name and _email and _password:
-            
+
             # All Good, let's call MySQL
-            
+
             conn = mysql.connect()
             cursor = conn.cursor()
             _hashed_password = generate_password_hash(_password)
@@ -109,7 +109,7 @@ def signUp():
 #        return json.dumps({'error':str(e)})
 
     finally:
-        cursor.close() 
+        cursor.close()
         conn.close()
 
 if __name__ == "__main__":

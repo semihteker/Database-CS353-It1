@@ -3,21 +3,21 @@
   $conn = connectToDB();
 
   dropTables($conn);
-  $sql = "CREATE TABLE user(
-          u_id int AUTO_INCREMENT NOT NULL,
-          email varchar(40) NOT NULL,
-          password varchar(20) NOT NULL,
-          PRIMARY KEY (u_id),
-          UNIQUE (email)
-          );
-          ";
-
-  if (mysqli_query($conn, $sql)) {
-      echo "Table user is created successfully";
-  } else {
-      echo "Error creating table: " . mysqli_error($conn);
-  }
-  echo "<br>";
+  // $sql = "CREATE TABLE user(
+  //         u_id int AUTO_INCREMENT NOT NULL,
+  //         email varchar(40) NOT NULL,
+  //         password varchar(20) NOT NULL,
+  //         PRIMARY KEY (u_id),
+  //         UNIQUE (email)
+  //         );
+  //         ";
+  //
+  // if (mysqli_query($conn, $sql)) {
+  //     echo "Table user is created successfully";
+  // } else {
+  //     echo "Error creating table: " . mysqli_error($conn);
+  // }
+  // echo "<br>";
   $sql = "CREATE TABLE customer(
           u_id int,
           email varchar(40) ,
@@ -254,6 +254,47 @@
       echo "Error creating table: " . mysqli_error($conn);
   }
 
+
+  echo "<br>";
+  $sql = "CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_createUser`(
+              IN p_name VARCHAR(20),
+              IN p_surname VARCHAR(20),
+              IN p_email VARCHAR(50),
+              IN p_password VARCHAR(512)
+          )
+          BEGIN
+              if ( select exists (select 1 from user where email = p_username) ) THEN
+
+                  select 'Email Exists !!';
+
+              ELSE
+
+                  insert into customer
+                  (
+                      email,
+                      password,
+                      name,
+                      surname
+                  )
+                  values
+                  (
+                      p_email,
+                      p_password,
+                      p_name,
+                      p_surname
+                  );
+
+              END IF;
+          END
+          ";
+
+  if (mysqli_query($conn, $sql)) {
+      echo "Table comment is created successfully";
+  } else {
+      echo "Error creating table: " . mysqli_error($conn);
+  }
+
+
 function connectToDB(){
 
     $db_host = 'localhost';
@@ -283,9 +324,9 @@ function dropTables($conn){
   $dropSql = "DROP TABLE IF EXISTS $table;";
   dropTable($conn,$dropSql,$table);
 
-  $table = 'user';
-  $dropSql = "DROP TABLE IF EXISTS $table;";
-  dropTable($conn,$dropSql,$table);
+  // $table = 'user';
+  // $dropSql = "DROP TABLE IF EXISTS $table;";
+  // dropTable($conn,$dropSql,$table);
 
   $table = 'customer';
   $dropSql = "DROP TABLE IF EXISTS $table;";
