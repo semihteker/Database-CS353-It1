@@ -3,6 +3,7 @@ from werkzeug import generate_password_hash, check_password_hash
 import sqlite3
 
 app = Flask(__name__)
+app.secret_key = 'why would I tell you my secret key?'
 
 conn = sqlite3.connect('setup/database.db')
 cursor = conn.cursor()
@@ -39,17 +40,17 @@ def logout():
 @app.route('/validateLogin',methods=['POST'])
 def validateLogin():
     try:
-        _username = request.form['inputEmail']
+        _email = request.form['inputEmail']
         _password = request.form['inputPassword']
 
         conn = sqlite3.connect('setup/database.db')
         cursor = conn.cursor()
 
-        cursor.callproc('sp_validateLogin',(_username,))
+        cursor.execute("SELECT * FROM customer WHERE email = ?;",(_email,))
         data = cursor.fetchall()
 
         if len(data) > 0:
-            if check_password_hash(str(data[0][3]),_password):
+            if check_password_hash(str(data[0][2]),_password):
                 session['user'] = data[0][0]
                 return redirect('/userHome')
             else:
@@ -68,29 +69,26 @@ def validateLogin():
 
 @app.route('/signUp',methods=['POST','GET'])
 def signUp():
-    form = request.form
-    print(form)
     try:
         _name = request.form['inputName']
-        _surname = request.form['inputSurname']
+        #_surname = request.form['inputSurname']
+        _surname = "Bekend"
         _email = request.form['inputEmail']
         _password = request.form['inputPassword']
 
         # validate the received values
         if _name and _email and _password:
-
             conn = sqlite3.connect('setup/database.db')
             cursor = conn.cursor()
-
             _hashed_password = generate_password_hash(_password)
-            cursor.execute("SELECT email FROM customer WHERE email=(%s);",_email)
+            cursor.execute("SELECT * FROM customer WHERE email = ?;",(_email,))
             data=cursor.fetchall()
             if len(data) > 0:
                 print("Email is in use!")
                 render_template('signup.html')
             else:
                 cursor.execute("INSERT INTO customer (email,password,name,surname) \
-                            VALUES (%s,%s,%s,%s);",(_email,_hashed_password,_name,_surname))
+                            VALUES (?,?,?,?);",(_email,_hashed_password,_name,_surname))
                 conn.commit()
 
                 # if len(data) is 0:
@@ -102,11 +100,13 @@ def signUp():
             return json.dumps({'html':'<span>Enter the required fields</span>'})
 
     except Exception as e:
-        print("error")
+        print("error "+ str(e))
         return json.dumps({'error':str(e)})
 
     finally:
+        print("finally")
         cursor.close()
+        conn.close()
 
 if __name__ == "__main__":
-    app.run(port=5002)
+    app.run(port=5003)

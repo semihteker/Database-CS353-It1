@@ -1,11 +1,11 @@
 import sqlite3
 
-conn = sqlite3.connect('database.db')
+conn = sqlite3.connect('setup/database.db')
 print ("Database created successfully")
 
 conn.execute('''
 CREATE TABLE IF NOT EXISTS customer(
-    u_id int PRIMARY KEY,
+    u_id INTEGER PRIMARY KEY,
     email varchar(40) ,
     password varchar(20),
     name varchar(20) NOT NULL,
@@ -27,18 +27,17 @@ CREATE TABLE IF NOT EXISTS phone_number(
 conn.execute(
 '''
 CREATE TABLE IF NOT EXISTS district(
-    d_id int,
+    d_id INTEGER PRIMARY KEY,
     district_name varchar(20) NOT NULL,
     area varchar(20) NOT NULL,
-    city varchar(20) NOT NULL,
-    PRIMARY KEY (d_id)
+    city varchar(20) NOT NULL
     );
 ''')
 
 conn.execute(
 '''
 CREATE TABLE IF NOT EXISTS restaurant(
-    u_id int,
+    u_id INTEGER PRIMARY KEY,
     email varchar(40),
     password varchar(20),
     name varchar(20) NOT NULL,
@@ -47,7 +46,6 @@ CREATE TABLE IF NOT EXISTS restaurant(
     isOpen bit NOT NULL,
     rate numeric(3,2),
     d_id int,
-    PRIMARY KEY (u_id),
     FOREIGN KEY (u_id) REFERENCES user(u_id),
     FOREIGN KEY (d_id) REFERENCES district(d_id),
     UNIQUE (address),
@@ -89,9 +87,8 @@ CREATE TABLE IF NOT EXISTS customer_address(
 conn.execute(
 '''
 CREATE TABLE IF NOT EXISTS delivery_staff (
-    staff_id int AUTO_INCREMENT,
-    staff_name varchar(20) NOT NULL,
-    PRIMARY KEY (staff_id)
+    staff_id INTEGER PRIMARY KEY,
+    staff_name varchar(20) NOT NULL
     );
 ''')
 
@@ -142,7 +139,7 @@ CREATE TABLE IF NOT EXISTS staff_serves(
 conn.execute(
 '''
 CREATE TABLE IF NOT EXISTS orders(
-    ord_id int AUTO_INCREMENT NOT NULL,
+    ord_id INTEGER PRIMARY KEY NOT NULL,
     date date NOT NULL,
     order_notes varchar(200),
     source_address varchar(60) NOT NULL,
@@ -153,7 +150,6 @@ CREATE TABLE IF NOT EXISTS orders(
     cust_id int,
     rest_id int,
     staff_id int,
-    PRIMARY KEY (ord_id),
     FOREIGN KEY (rest_id) REFERENCES restaurant(u_id),
     FOREIGN KEY (staff_id) REFERENCES delivery_staff(staff_id));
 ''')
