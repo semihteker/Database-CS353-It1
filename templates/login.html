@@ -7,8 +7,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
   <link rel="stylesheet" href="../static/css/theme.css" type="text/css">
 
-    <script src="../static/js/jquery-1.11.2.js"></script>
-    <script src="../static/js/signIn.js"></script>
+  <script src="../static/js/jquery-1.11.2.js"></script>
+  <script src="../static/js/signIn.js"></script>
 </head>
 
 <body>
@@ -17,61 +17,61 @@
       <a class="navbar-brand" href="#">
         <b>Restaurant Express</b>
       </a>
-<form class = "form-signin" action="/validateLogin" method= "post">
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar2SupportedContent">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse text-center justify-content-end" id="navbar2SupportedContent"> </div>
-    </div>
-  </nav>
-  <div class="py-5 cover" style="background-image: url(&quot;https://pingendo.github.io/templates/sections/assets/form_red.jpg&quot;);background-position:center bottom;background-size:cover;">
-    <div class="container">
-      <div class="row">
-        <div class="align-self-center col-md-6 text-white">
-          <h1 class="text-center text-md-left display-3">Restaurant Express</h1>
-          <p class="lead">Are you hungry? Tasty :)</p>
-        </div>
+      <form class = "form-signin" action="/validateLogin" method= "post">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar2SupportedContent">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse text-center justify-content-end" id="navbar2SupportedContent"> </div>
+      </div>
+    </nav>
+    <div class="py-5 cover" style="background-image: url(&quot;https://pingendo.github.io/templates/sections/assets/form_red.jpg&quot;);background-position:center bottom;background-size:cover;">
+      <div class="container">
+        <div class="row">
+          <div class="align-self-center col-md-6 text-white">
+            <h1 class="text-center text-md-left display-3">Restaurant Express</h1>
+            <p class="lead">Are you hungry? Tasty :)</p>
+          </div>
 
 
-        <div class="col-md-6">
-          <div class="card">
-            <div class="card-body p-5">
-              <h3 class="pb-3">Login</h3>
-              <form action="https://formspree.io/YOUREMAILHERE">
-                <div class="form-group">
-                  <label for= "inputEmail" class="sr-only" >E-mail</label>
-                  <input type = "email" name = "inputEmail" id= "inputEmail" class="form-control" placeholder="Your email, please" required autofocus> </div>
-                <div class="form-group">
-<input type = "password" name= "inputPassword" id = "inputPassword" class="form-control" placeholder= "Password" required> </div>
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body p-5">
+                <h3 class="pb-3">Login</h3>
+                <form action="https://formspree.io/YOUREMAILHERE">
+                  <div class="form-group">
+                    <label for= "inputEmail" class="sr-only" >E-mail</label>
+                    <input type = "email" name = "inputEmail" id= "inputEmail" class="form-control" placeholder="Your email, please" required autofocus> </div>
+                    <div class="form-group">
+                      <input type = "password" name= "inputPassword" id = "inputPassword" class="form-control" placeholder= "Password" required> </div>
 
-              <button type="submit" class="btn mt-2 btn-outline-dark w-50">Login</button>
-</form>
-              <div class="row">
-                <div class="col-md-6 col-sm-6"></div>
-                <div class="col-md-6"></div>
-              </div>
-              <div class="row">
-                <div class="col-md-12">
-<form action = "/showSignUp" >
-                  <button type="submit" class="btn mt-2 btn-outline-dark w-100">New Account</button>
-</form>
-                </div>
-                <div class="col-md-12">
-<form action = "/showRestaurantLogin" >
-                  <button type="submit" class="btn mt-2 btn-outline-dark w-100">Restaurant Login</button>
-   </form>
+                      <button type="submit" class="btn mt-2 btn-outline-dark w-50">Login</button>
+                    </form>
+                    <div class="row">
+                      <div class="col-md-6 col-sm-6"></div>
+                      <div class="col-md-6"></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <form action = "/showSignUp" >
+                          <button type="submit" class="btn mt-2 btn-outline-dark w-100">New Account</button>
+                        </form>
+                      </div>
+                      <div class="col-md-12">
+                        <form action = "/showRestaurantLogin" >
+                          <button type="submit" class="btn mt-2 btn-outline-dark w-100">Restaurant Login</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-</body>
+      </body>
 
-</html>
+      </html>

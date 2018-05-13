@@ -15,7 +15,15 @@ def main():
 
 @app.route('/showSignUp')
 def showSignUp():
-    return render_template('signup.html')
+    conn = sqlite3.connect("setup/database.db")
+    conn.row_factory = sqlite3.Row
+
+    cursor = conn.cursor()
+    cursor.execute("select * from district")
+
+    rows = cursor.fetchall();
+    return render_template("Customer Register.html",rows = rows)
+    #return render_template('signup.html')
 
 @app.route('/showLogin')
 def showLogin():
@@ -109,6 +117,7 @@ def signUp():
         _email = request.form['inputEmail']
         _password = request.form['inputPassword']
 
+        print("here")
         # validate the received values
         if _name and _email and _password:
             conn = sqlite3.connect('setup/database.db')

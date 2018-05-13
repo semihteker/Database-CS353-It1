@@ -1,6 +1,6 @@
 $(function(){
-	$('#btnSignUp').click(function(){
-		
+	$('#button_register').click(function(){
+
 		$.ajax({
 			url: '/signUp',
 			data: $('form').serialize(),
