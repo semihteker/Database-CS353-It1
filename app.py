@@ -18,7 +18,7 @@ def showSignUp():
     return render_template('signup.html')
 
 @app.route('/showLogin')
-def showSignin():
+def showLogin():
     if session.get('user'):
         return render_template('userHome.html')
     else:
@@ -38,7 +38,12 @@ def logout():
     return redirect('/')
 
 @app.route('/showRestaurantLogin')
-def logout():
+def showRestaurantLogin():
+    return render_template('restaurant_login.html')
+
+
+@app.route('/validateRestaurantLogin')
+def validateRestaurantLogin():
     try:
         _email = request.form['inputEmail']
         _password = request.form['inputPassword']
@@ -135,6 +140,8 @@ def signUp():
         print("finally")
         cursor.close()
         conn.close()
+
+
 
 if __name__ == "__main__":
     app.run(port=5002)
