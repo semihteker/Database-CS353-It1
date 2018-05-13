@@ -17,12 +17,12 @@ def main():
 def showSignUp():
     return render_template('signup.html')
 
-@app.route('/showSignin')
+@app.route('/showLogin')
 def showSignin():
     if session.get('user'):
         return render_template('userHome.html')
     else:
-        return render_template('signin.html')
+        return render_template('login.html')
 
 @app.route('/userHome')
 def userHome():
@@ -36,6 +36,34 @@ def userHome():
 def logout():
     session.pop('user',None)
     return redirect('/')
+
+@app.route('/showRestaurantLogin')
+def logout():
+    try:
+        _email = request.form['inputEmail']
+        _password = request.form['inputPassword']
+
+        conn = sqlite3.connect('setup/database.db')
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT * FROM restaurant WHERE email = ?;",(_email,))
+        data = cursor.fetchall()
+
+        if len(data) > 0:
+            if check_password_hash(str(data[0][2]),_password):
+                session['user'] = data[0][0]
+                return redirect('/restaurantHome')
+            else:
+                return render_template('error.html',error = 'Wrong Email address or Password.')
+        else:
+            return render_template('error.html',error = 'Wrong Email address or Password.')
+
+
+    except Exception as e:
+        return render_template('error.html',error = str(e))
+    finally:
+        cursor.close()
+        conn.close()
 
 @app.route('/validateLogin',methods=['POST'])
 def validateLogin():
@@ -63,7 +91,7 @@ def validateLogin():
         return render_template('error.html',error = str(e))
     finally:
         cursor.close()
-
+        conn.close()
 
 
 
@@ -109,4 +137,4 @@ def signUp():
         conn.close()
 
 if __name__ == "__main__":
-    app.run(port=5003)
+    app.run(port=5002)

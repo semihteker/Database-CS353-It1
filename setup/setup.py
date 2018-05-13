@@ -29,7 +29,7 @@ conn.execute(
 CREATE TABLE IF NOT EXISTS district(
     d_id INTEGER PRIMARY KEY,
     district_name varchar(20) NOT NULL,
-    area varchar(20) NOT NULL,
+    area varchar(20),
     city varchar(20) NOT NULL
     );
 ''')
