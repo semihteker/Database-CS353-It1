@@ -14,7 +14,7 @@ def main():
     return render_template('index.html')
 
 @app.route('/showSignUp')
-def showSignUp():
+def showSignUp(emailInUse):
     conn = sqlite3.connect("setup/database.db")
     conn.row_factory = sqlite3.Row
 
@@ -22,7 +22,7 @@ def showSignUp():
     cursor.execute("select * from district")
 
     rows = cursor.fetchall();
-    return render_template("signup.html",rows = rows)
+    return render_template("signup.html",rows = rows,emailInUse=emailInUse)
     #return render_template('signup.html')
 
 @app.route('/showLogin')
@@ -128,8 +128,8 @@ def signUp():
             cursor.execute("SELECT * FROM customer WHERE email = ?;",(_email,))
             data=cursor.fetchall()
             if len(data) > 0:
-                print("Email is in use!")
-                return render_template('signup.html',emailInUse="Email is in use")  ####buraya return ekle
+
+                return showSignUp("Email is in use")  ####buraya return ekle
             else:
                 print("else")
                 cursor.execute("INSERT INTO customer (email,password,name,surname) \
