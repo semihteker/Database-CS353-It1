@@ -5,9 +5,9 @@ cursor = conn.cursor()
 
 
 cursor.execute("INSERT INTO product (rest_id, food_name, food_type, price, portion)\
-            VALUES (1, 'Mantı', 'Pastas', 21, 150)")
+            VALUES (1, 'Manti', 'Pastas', 21, 150)")
 cursor.execute("INSERT INTO product (rest_id, food_name, food_type, price, portion)\
-            VALUES (1, 'FitKahvalti', 'Breakfast,' 14, 200 )")
+            VALUES (1, 'FitKahvalti', 'Breakfast', 14, 200 )")
 cursor.execute("INSERT INTO product (rest_id, food_name, food_type, price, portion)\
             VALUES (1, 'Menemen', 'Breakfast', 21, 150)")
 cursor.execute("INSERT INTO product (rest_id, food_name, food_type, price, portion)\
@@ -23,7 +23,7 @@ cursor.execute("INSERT INTO product (rest_id, food_name, food_type, price, porti
 cursor.execute("INSERT INTO product (rest_id, food_name, food_type, price, portion)\
             VALUES (1, 'Latte' , 'Drinks', 12, 150)")
 cursor.execute("INSERT INTO product (rest_id, food_name, food_type, price, portion)\
-            VALUES (1, 'NaneliAyran', 'Drinks', 16 200 )")
+            VALUES (1, 'NaneliAyran', 'Drinks', 16, 200 )")
 
 cursor.execute("INSERT INTO product (rest_id, food_name, food_type, price, portion)\
             VALUES (2, 'Tuzlama', 'Soup', 16, 150)")
