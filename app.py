@@ -2,8 +2,11 @@ from flask import Flask, render_template, json, request,redirect,session
 from werkzeug import generate_password_hash, check_password_hash
 import sqlite3
 
+app = Flask(__name__)
+
 conn = sqlite3.connect('setup/database.db')
 cursor = conn.cursor()
+
 
 @app.route('/')
 def main():
@@ -39,6 +42,9 @@ def validateLogin():
         _username = request.form['inputEmail']
         _password = request.form['inputPassword']
 
+        conn = sqlite3.connect('setup/database.db')
+        cursor = conn.cursor()
+
         cursor.callproc('sp_validateLogin',(_username,))
         data = cursor.fetchall()
 
@@ -56,42 +62,51 @@ def validateLogin():
         return render_template('error.html',error = str(e))
     finally:
         cursor.close()
-        con.close()
+
+
 
 
 @app.route('/signUp',methods=['POST','GET'])
 def signUp():
+    form = request.form
+    print(form)
     try:
         _name = request.form['inputName']
+        _surname = request.form['inputSurname']
         _email = request.form['inputEmail']
         _password = request.form['inputPassword']
 
         # validate the received values
         if _name and _email and _password:
 
-            # All Good, let's call MySQL
-
-            conn = mysql.connect()
+            conn = sqlite3.connect('setup/database.db')
             cursor = conn.cursor()
-            _hashed_password = generate_password_hash(_password)
-            cursor.callproc('sp_createUser',(_name,_email,_hashed_password))
-            data = cursor.fetchall()
 
-            if len(data) is 0:
-                conn.commit()
-                return json.dumps({'message':'User created successfully !'})
+            _hashed_password = generate_password_hash(_password)
+            cursor.execute("SELECT email FROM customer WHERE email=(%s);",_email)
+            data=cursor.fetchall()
+            if len(data) > 0:
+                print("Email is in use!")
+                render_template('signup.html')
             else:
-                return json.dumps({'error':str(data[0])})
+                cursor.execute("INSERT INTO customer (email,password,name,surname) \
+                            VALUES (%s,%s,%s,%s);",(_email,_hashed_password,_name,_surname))
+                conn.commit()
+
+                # if len(data) is 0:
+                #     conn.commit()
+                #     return json.dumps({'message':'User created successfully !'})
+                # else:
+                #     return json.dumps({'error':str(data[0])})
         else:
             return json.dumps({'html':'<span>Enter the required fields</span>'})
 
-#    except Exception as e:
-#        print("error")
-#        return json.dumps({'error':str(e)})
+    except Exception as e:
+        print("error")
+        return json.dumps({'error':str(e)})
 
     finally:
         cursor.close()
-        conn.close()
 
 if __name__ == "__main__":
     app.run(port=5002)
