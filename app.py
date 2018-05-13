@@ -22,7 +22,7 @@ def showSignUp():
     cursor.execute("select * from district")
 
     rows = cursor.fetchall();
-    return render_template("Customer Register.html",rows = rows)
+    return render_template("signup.html",rows = rows)
     #return render_template('signup.html')
 
 @app.route('/showLogin')
@@ -111,9 +111,11 @@ def validateLogin():
 @app.route('/signUp',methods=['POST','GET'])
 def signUp():
     try:
+        print("a")
         _name = request.form['inputName']
-        #_surname = request.form['inputSurname']
-        _surname = "Bekend"
+        print("name")
+        _surname = request.form['inputSurname']
+        #_surname = "Bekend"
         _email = request.form['inputEmail']
         _password = request.form['inputPassword']
 
@@ -127,17 +129,14 @@ def signUp():
             data=cursor.fetchall()
             if len(data) > 0:
                 print("Email is in use!")
-                render_template('signup.html')
+                return render_template('signup.html',emailInUse="Email is in use")  ####buraya return ekle
             else:
+                print("else")
                 cursor.execute("INSERT INTO customer (email,password,name,surname) \
                             VALUES (?,?,?,?);",(_email,_hashed_password,_name,_surname))
                 conn.commit()
+                return render_template("login.html",loggedIn="<p>You have successfully signed up. Time to login!</p>") #####burayı değiştir
 
-                # if len(data) is 0:
-                #     conn.commit()
-                #     return json.dumps({'message':'User created successfully !'})
-                # else:
-                #     return json.dumps({'error':str(data[0])})
         else:
             return json.dumps({'html':'<span>Enter the required fields</span>'})
 
