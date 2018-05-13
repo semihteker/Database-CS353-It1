@@ -1,19 +1,9 @@
 from flask import Flask, render_template, json, request,redirect,session
-from flaskext.mysql import MySQL
 from werkzeug import generate_password_hash, check_password_hash
+import sqlite3
 
-mysql = MySQL()
-app = Flask(__name__)
-app.secret_key = 'why would I tell you my secret key?'
-
-# MySQL configurations
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
-app.config['MYSQL_DATABASE_DB'] = 'RestExpress'
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-#app.config["MYSQL_DATABASE_CHARSET"] ='utf8mb4'
-mysql.init_app(app)
-
+conn = sqlite3.connect('setup/database.db')
+cursor = conn.cursor()
 
 @app.route('/')
 def main():
@@ -49,17 +39,8 @@ def validateLogin():
         _username = request.form['inputEmail']
         _password = request.form['inputPassword']
 
-
-
-        # connect to mysql
-
-        con = mysql.connect()
-        cursor = con.cursor()
         cursor.callproc('sp_validateLogin',(_username,))
         data = cursor.fetchall()
-
-
-
 
         if len(data) > 0:
             if check_password_hash(str(data[0][3]),_password):
