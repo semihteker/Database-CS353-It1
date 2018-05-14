@@ -14,7 +14,7 @@ def main():
     return render_template('index.html')
 
 @app.route('/showSignUp')
-def showSignUp(emailInUse):
+def showSignUp(emailInUse=""):
     conn = sqlite3.connect("setup/database.db")
     conn.row_factory = sqlite3.Row
 
@@ -29,6 +29,13 @@ def showSignUp(emailInUse):
 def showLogin():
     if session.get('user'):
         return render_template('userHome.html')
+    else:
+        return render_template('login.html')
+
+@app.route('/showAddNewAddress')
+def showAddNewAddress():
+    if session.get('user'):
+        return render_template('addNewAddress.html')
     else:
         return render_template('login.html')
 
@@ -106,7 +113,43 @@ def validateLogin():
         cursor.close()
         conn.close()
 
+@app.route('/addNewAddress',methods=['POST','GET'])
+def addNewAddress():
+    try:
+        print("here")
+        _address_title = request.form['addressTitle']
+        _phone_num = request.form['phoneNumber']
+        _street_name = request.form['streetName']
+        _street_num = request.form['streetNumber']
 
+        # _city = request.form['city']
+        # _district = request.form['district']
+        _zipcode=request.form['zipcode']
+        _address_description=request.form['addressDescription']
+
+        print("here2")
+        # validate the received values
+        if _address_title and _phone_num and _street_name and _street_num and _zipcode and _address_description:
+            conn = sqlite3.connect('setup/database.db')
+            cursor = conn.cursor()
+            print(1)
+            cursor.execute("INSERT INTO customer_address (address_type,phone_number,street_name,street_number,city,zipcode,adress_desc,d_id) \
+                        VALUES (?,?,?,?,'Ankara',?,?,2);",(_address_title,_phone_num,_street_name,_street_num,_zipcode,_address_description))
+            print(2)
+            conn.commit()
+            print(3)
+            return render_template("userHome.html")
+
+        else:
+            return json.dumps({'html':'<span>Enter the required fields</span>'})
+
+    except Exception as e:
+        print("error "+ str(e))
+        return json.dumps({'error':str(e)})
+
+    finally:
+        cursor.close()
+        conn.close()
 
 @app.route('/signUp',methods=['POST','GET'])
 def signUp():
