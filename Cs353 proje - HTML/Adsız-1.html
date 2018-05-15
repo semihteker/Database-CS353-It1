@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dynamically Add Remove Table Rows in JavaScript</title>
+
+    <style>
+        table 
+        {
+            width: 70%;
+            font: 17px Calibri;
+        }
+        table, th, td 
+        {
+            border: solid 1px #DDD;
+            border-collapse: collapse;
+            padding: 2px 3px;
+            text-align: center;
+        }
+    </style>
+</head>   
+
+<body onload="createTable()">
+    <p>
+        <input type="button" id="addRow" value=" add new product " onclick="createFirstRow()" />
+    </p>
+    
+    <p>
+        <input type="button" id="addRow" value=" + " onclick="addRow()" />
+    </p>
+
+    <!--THE CONTAINER WHERE WE'll ADD THE DYNAMIC TABLE-->
+    <div id="cont"></div>
+
+    <p><input type="button" id="bt" value="Save" onclick="save()" /></p>
+</body>
+
+<script>
+    // ARRAY FOR HEADER.
+    var arrOnce = new Array();
+    arrOnce = ['Type', 'Name', 'Total Cal', 'Price'];      // SIMPLY ADD OR REMOVE VALUES IN THE ARRAY FOR TABLE HEADERS.
+
+    function createFirstRow(){
+        var ingrTable1 = document.createElement('table1');
+        ingrTable1.setAttribute('id1', 'ingrTable1');            // SET THE TABLE ID.
+        
+        var tr1 = ingrTable1.insertRow(-1);
+
+		for (var h = 0; h < arrOnce.length; h++) {
+            var th1 = document.createElement('th1');          // TABLE HEADER.
+            th1.innerHTML = arrOnce[h];
+            tr1.appendChild(th1);
+        }
+        for (var c = 0; c < arrOnce.length; c++) {
+            var td1 = document.createElement('td1');          // TABLE DEFINITION.
+            td1 = tr1.insertCell(c);
+
+            // CREATE AND ADD TEXTBOX IN EACH CELL.
+            var ele = document.createElement('input');
+            ele.setAttribute('type', 'text');
+            ele.setAttribute('value', '');
+
+            td1.appendChild(ele);
+        }
+    }
+    
+    
+    // ARRAY FOR HEADER.
+    var arrHead = new Array();
+    arrHead = ['', 'Ingredient', 'Calorie', 'Count'];      // SIMPLY ADD OR REMOVE VALUES IN THE ARRAY FOR TABLE HEADERS.
+    
+    // FIRST CREATE A TABLE STRUCTURE BY ADDING A FEW HEADERS AND
+    // ADD THE TABLE TO YOUR WEB PAGE.
+    function createTable() {
+        var ingrTable = document.createElement('table');
+        ingrTable.setAttribute('id', 'ingrTable');            // SET THE TABLE ID.
+
+        var tr = ingrTable.insertRow(-1);
+
+        for (var h = 0; h < arrHead.length; h++) {
+            var th = document.createElement('th');          // TABLE HEADER.
+            th.innerHTML = arrHead[h];
+            tr.appendChild(th);
+        }
+
+        var div = document.getElementById('cont');
+        div.appendChild(ingrTable);    // ADD THE TABLE TO YOUR WEB PAGE.
+    }
+
+    // ADD A NEW ROW TO THE TABLE.s
+    function addRow() {
+        var ingrTab = document.getElementById('ingrTable');
+
+        var rowCnt = ingrTab.rows.length;        // GET TABLE ROW COUNT.
+        var tr = ingrTab.insertRow(rowCnt);      // TABLE ROW.
+        tr = ingrTab.insertRow(rowCnt);
+
+        for (var c = 0; c < arrHead.length; c++) {
+            var td = document.createElement('td');          // TABLE DEFINITION.
+            td = tr.insertCell(c);
+
+            if (c == 0) {           // FIRST COLUMN.
+                // ADD A BUTTON.
+                var button = document.createElement('input');
+
+                // SET INPUT ATTRIBUTE.
+                button.setAttribute('type', 'button');
+                button.setAttribute('value', ' - ');
+
+                // ADD THE BUTTON's 'onclick' EVENT.
+                button.setAttribute('onclick', 'removeRow(this)');
+
+                td.appendChild(button);
+            }
+            else {
+                // CREATE AND ADD TEXTBOX IN EACH CELL.
+                var ele = document.createElement('input');
+                ele.setAttribute('type', 'text');
+                ele.setAttribute('value', '');
+
+                td.appendChild(ele);
+            }
+        }
+    }
+
+    // DELETE TABLE ROW.
+    function removeRow(oButton) {
+        var ingrTab = document.getElementById('ingrTable');
+        ingrTab.deleteRow(oButton.parentNode.parentNode.rowIndex);       // BUTTON -> TD -> TR.
+    }
+
+    // EXTRACT AND SAVE TABLE DATA.
+    function save() {
+        var myTab = document.getElementById('ingrTable');
+        var values = new Array();
+
+        // LOOP THROUGH EACH ROW OF THE TABLE.
+        for (row = 1; row < myTab.rows.length - 1; row++) {
+            for (c = 0; c < myTab.rows[row].cells.length; c++) {   // EACH CELL IN A ROW.
+
+                var element = myTab.rows.item(row).cells[c];
+                if (element.childNodes[0].getAttribute('type') == 'text') {
+                    values.push("'" + element.childNodes[0].value + "'");
+                }
+            }
+        }
+        console.log(values);
+    }
+</script>
+</html>
