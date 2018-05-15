@@ -68,8 +68,6 @@ conn.execute(
 CREATE TABLE IF NOT EXISTS customer_address(
     u_id int,
     address_type varchar(20) NOT NULL,
-    name varchar(20),
-    surname varchar(20),
     phone_number varchar(20) NOT NULL,
     street_name varchar(20) NOT NULL,
     street_number numeric(8,0) NOT NULL,

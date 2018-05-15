@@ -1,8 +1,8 @@
 // $(function(){
-// 	$('#button_register').click(function(){
+// 	$('#button_save').click(function(){
 //
 // 		$.ajax({
-// 			url: '/signUp',
+// 			url: '/addNewAddress',
 // 			data: $('form').serialize(),
 // 			type: 'POST',
 // 			success: function(response){
